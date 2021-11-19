@@ -95,11 +95,14 @@ export default {
           return 'LineString';
         case 'rectangle':
         case 'circle':
+        //case 'preset-polygon':
           return 'Circle';
         case 'polygon':
         case 'freehand-polygon':
         case 'select': // correct mode
           return 'Polygon';
+        case 'preset-polygon':
+          return 'Preset';
       }
     },
     drawCorrection() {
@@ -120,12 +123,33 @@ export default {
           let rotatedBoxCoordinates = [firstCorner, secondCorner, thirdCorner, fourthCorner, firstCorner];
           let boxCoordinates = [this.rotateCoords(rotatedBoxCoordinates, -this.rotation)];
 
+          //console.log(boxCoordinates);
+
           if(geometry) {
             geometry.setCoordinates(boxCoordinates);
           }
           else {
             geometry = new Polygon(boxCoordinates);
           }
+          //console.log(geometry)
+          return geometry;
+        };
+      }
+      else if (this.activeTool === 'preset-polygon') {
+        return (coordinates, geometry) => {
+
+          let boxCoordinates = [this.getSquareCoords(coordinates, 256)];
+          //console.log(boxCoordinates);
+
+          if (geometry) {
+            //geometry.setCoordinates(boxCoordinates);
+            return geometry;
+          }
+          else {
+            geometry = new Polygon(boxCoordinates);
+            //console.log(geometry)
+          }
+          //this.endDraw(geometry);
           return geometry;
         };
       }
@@ -160,11 +184,35 @@ export default {
       return coords.map(([x, y]) => [x*cosTheta + y*sinTheta, -x*sinTheta + y*cosTheta]);
     },
 
+    getSquareCoords(coords, dist) {
+      let x = coords[0][0];
+      let y = coords[0][1];
+      let l = [];
+
+      let upperRightCorner = [x+dist, y+dist];
+      let lowerRightCorner = [x+dist, y-dist];
+      let upperLeftCorner = [x-dist, y+dist];
+      let lowerLeftCorner = [x-dist, y-dist];
+      //console.log([upperRightCorner, lowerRightCorner, lowerLeftCorner, upperLeftCorner])
+      // return [upperRightCorner, lowerRightCorner, lowerLeftCorner, upperLeftCorner]
+      //return upperRightCorner.concat(lowerRightCorner, lowerLeftCorner, upperLeftCorner, upperRightCorner);
+
+      l.push(upperRightCorner)
+      l.push(lowerRightCorner)
+      l.push(lowerLeftCorner)
+      l.push(upperLeftCorner)
+      l.push(upperRightCorner)
+
+      return l 
+    },
+
     clearDrawnFeatures() {
       this.$refs.olSourceDrawTarget.clear(true);
     },
 
     async drawEndHandler({feature}) {
+      console.log("draw end!  " + feature);
+      console.log(feature);
       if(this.drawCorrection) {
         await this.endCorrection(feature);
       }
@@ -241,6 +289,10 @@ export default {
       let geometry = feature.getGeometry();
       if (geometry.getType() === 'Circle') {
         feature.setGeometry(polygonFromCircle(geometry));
+      }
+      else if (geometry.getType() === 'Preset') {
+        feature.setGeometry(polygonFromCircle(geometry));
+        console.log('setGeo Preset!');
       }
       return this.format.writeFeature(feature);
     },

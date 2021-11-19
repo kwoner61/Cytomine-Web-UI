@@ -178,6 +178,17 @@
           <icon-polygon-free-hand />
         </span>
       </button>
+
+      <button
+        v-if="isToolDisplayed('preset-polygon')"
+        :disabled="disabledDraw"
+        v-tooltip="$t('preset-polygon')"
+        class="button"
+        :class="{'is-selected': activeTool === 'preset-polygon'}"
+        @click="activateTool('preset-polygon')"
+      >
+        <span class="icon is-small"><i class="superscript fas fa-square"></i><i class="fas fa-square"></i></span>
+      </button>
     </div>
   </template>
 
@@ -1072,6 +1083,11 @@ export default {
         case 'tool-freehand-polygon':
           if (this.isToolDisplayed('polygon') && !this.disabledDraw) {
             this.activateTool('freehand-polygon');
+          }
+          return;
+        case 'tool-preset-polygon':
+          if (this.isToolDisplayed('preset-polygon') && !this.disabledDraw) {
+            this.activeTool('preset-polygon');
           }
           return;
         case 'tool-delete':

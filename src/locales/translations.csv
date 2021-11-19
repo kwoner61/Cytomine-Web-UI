@@ -45,7 +45,7 @@ notif-success-keys-regenerated,API keys correctly updated,Clés API mises à jou
 notif-error-keys-not-regenerated,Error during the regeneration of API keys,Une erreur a empêché de regénérer les clés API
 login,Log in,Authentification
 remember-me,Remember me,Se rappeler de moi
-notif-success-login,Welcome on Cytomine,Bienvenue sur Cytomine
+notif-success-login,Welcome to Cytomine,Bienvenue sur Cytomine
 notif-unexpected-error,Unexpected error,Une erreur inattendue s'est produite
 annotation-layers,Annotation layers,Calques d'annotations
 select-layer,Select a layer,Sélectionner un calque
@@ -66,6 +66,7 @@ rectangle,Rectangle,Rectangle
 circle,Circle,Cercle
 polygon,Polygon,Polygone
 freehand-polygon,Freehand polygon,Polygone à main levée
+preset-polygon,Preset polygon,Polygone fixed
 freehand-correct-add,Correct annotation by adding a freehand area,Corriger l'annotation en lui ajoutant un polygone à main levée
 freehand-correct-remove,Correct annotation by removing a freehand area,Corriger l'annotation en lui soustrayant un polygone à main levée
 display-annot-details,Display details of currently selected annotation,Afficher les détails de l'annotation sélectionnée
@@ -494,6 +495,7 @@ draw,Draw,Outils d'annotations
 shortcut-viewer-tool-select,Select annotation,Sélectionner une annotation
 shortcut-viewer-tool-point,Draw a point,Dessiner un point
 shortcut-viewer-tool-freehand-polygon,Draw a freehand polygon,Dessiner un polygone à main levée
+shortcut-viewer-tool-preset-polygon,Draw a polygon with fixed size,Dessiner un polygone fixed
 shortcut-viewer-tool-delete,Delete selected annotation,Supprimer l'annotation sélectionnée
 shortcut-viewer-tool-undo,Undo annotation action,Annuler une action sur les annotations
 shortcut-viewer-tool-redo,Redo annotation action,Refaire une action sur les annotations
