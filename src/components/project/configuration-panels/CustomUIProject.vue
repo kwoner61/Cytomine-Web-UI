@@ -132,6 +132,8 @@ export default {
             {key: 'project-tools-polygon', label: 'polygon', icon: 'fas fa-draw-polygon'},
             {key: 'project-tools-freehand-polygon', label: 'freehand-polygon',
               iconComponent: IconPolygonFreeHand},
+            {key: 'project-tools-preset-polygon', label: 'preset-polygon', icon: 'fas fa-square',
+              superscript: 'fas fa-square'},
             {key: 'project-tools-union', label: 'freehand-correct-add', icon: 'fas fa-pencil-alt',
               superscript: 'fas fa-plus'},
             {key: 'project-tools-diff', label: 'freehand-correct-remove', icon: 'fas fa-pencil-alt',

@@ -96,6 +96,8 @@ export default {
         case 'rectangle':
         case 'circle':
           return 'Circle';
+        // case 'preset-polygon':
+        //   return 'Preset';
         case 'polygon':
         case 'freehand-polygon':
         case 'select': // correct mode
@@ -129,6 +131,11 @@ export default {
           return geometry;
         };
       }
+      // else if (this.activeTool === 'preset-polygon') {
+      //   return (coordinates, geometry) => {
+      //     return geometry;
+      //   };
+      // }
       else {
         return null;
       }
@@ -242,6 +249,10 @@ export default {
       if (geometry.getType() === 'Circle') {
         feature.setGeometry(polygonFromCircle(geometry));
       }
+      // else if (geometry.getType() === 'Preset') {
+      //   feature.setGeometry(polygonFromCircle(geometry));
+      //   console.log('setGeo Preset!');
+      // }
       return this.format.writeFeature(feature);
     },
   }
