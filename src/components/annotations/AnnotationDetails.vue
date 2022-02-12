@@ -28,12 +28,14 @@
       <template v-if="isPropDisplayed('geometry-info')">
         <tr v-if="annotation.area > 0">
           <td><strong>{{$t('area')}}</strong></td>
-          <td>{{ `${annotation.area.toFixed(3)} ${annotation.areaUnit}` }}</td>
+          <td class="clickable" v-if="customAreaUnit === 'PIXEL'" @click="switchMeasurementUnit">{{ `${annotation.area.toFixed(3)} ${annotation.areaUnit}` }}</td>
+          <td class="clickable" v-if="customAreaUnit === 'UM'" @click="switchMeasurementUnit">{{(annotation.area * image.physicalSizeX).toFixed(3)}} {{$t("um")}}²</td>
         </tr>
 
         <tr v-if="annotation.perimeter > 0">
           <td><strong>{{$t(annotation.area > 0 ? 'perimeter' : 'length')}}</strong></td>
-          <td>{{ `${annotation.perimeter.toFixed(3)} ${annotation.perimeterUnit}` }}</td>
+          <td class="clickable" v-if="customAreaUnit === 'PIXEL'" @click="switchMeasurementUnit">{{ `${annotation.perimeter.toFixed(3)} ${annotation.perimeterUnit}` }}</td>
+          <td class="clickable" v-if="customAreaUnit === 'UM'" @click="switchMeasurementUnit">{{(annotation.perimeter * image.physicalSizeX).toFixed(3)}} {{$t("um")}}</td>
         </tr>
 
         <tr v-if="profile">
@@ -288,7 +290,8 @@ export default {
     images: {type: Array},
     profiles: {type: Array, default: () => []},
     showImageInfo: {type: Boolean, default: true},
-    showComments: {type: Boolean, default: false}
+    showComments: {type: Boolean, default: false},
+    customAreaUnit: {type: String, default: 'UM'}
   },
   data() {
     return {
@@ -535,6 +538,15 @@ export default {
         this.$notify({type: 'error', text: this.$t('notif-error-annotation-deletion')});
       }
     },
+
+    switchMeasurementUnit() {
+      if(this.customAreaUnit === 'UM') {
+        this.customAreaUnit = 'PIXEL';
+      }
+      else {
+        this.customAreaUnit = 'UM';
+      }
+    },
   },
   async created() {
     if(this.isPropDisplayed('comments') && [AnnotationType.ALGO, AnnotationType.USER].includes(this.annotation.type)) {
@@ -606,13 +618,17 @@ a.is-fullwidth {
   margin-top: 4px;
 }
 
->>> .sl-vue-tree-node-item {
+.sl-vue-tree-node-item {
   font-size: 0.9em;
 }
 
->>> .tag {
+.tag {
     margin-right: 5px;
     margin-bottom: 5px !important;
     background-color: rgba(0, 0, 0, 0.04);
+}
+
+.clickable:hover {
+  cursor: pointer;
 }
 </style>
